@@ -1,0 +1,6 @@
+lib
+test/build
+*.swp
+*.swo
+*.swn
+node_modules
