@@ -2,14 +2,8 @@
 om-nomnom
 =========
 
-The lib is currently in early development, even if it's
-
-I've been working with databases for a decade now, and i've been looking for the best solution to manage data in my applications (web, desktop, game, mobile, ...). By best solution, I mean:
-- usable and easily ported on any lang
-- simple and quick to understand/master by any developper
-- flexible, so anyone take or throw any part from it and make its own
-- A cool name like om-nomnom !
-
+/!\ The lib is currently in early development, even if it's pretty stable (unit tested and used daily on dev machines),
+some part of the work is missing and needs to be done.
 
 Install
 =======
@@ -30,6 +24,14 @@ Note that there are currently 3 mappers:
 
 Dev notes
 =========
+
+I've been working with databases for a decade now, and i've been looking for the best solution to manage data in my applications (web, desktop, game, mobile, ...). By best solution, I mean:
+
+- usable and easily ported on any lang
+- simple and quick to understand/master by any developper
+- flexible, so anyone take or throw any part from it and make its own
+- A cool name like om-nomnom !
+
 
 When I started coding my first project, I was exclusively using raw SQL to access my data.
 Very soon I started using a driver to reduce code repetition of basic operation (managing connections, queries ...)

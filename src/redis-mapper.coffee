@@ -8,7 +8,7 @@ module.exports = (redis) ->
 
   redis.defineCommand('getObjectFromSK', {
     numberOfKeys: 1,
-    lua: fs.readFileSync('./lua/get-object-from-sk.lua')
+    lua: fs.readFileSync(__dirname + '/../lua/get-object-from-sk.lua')
   })
 
 
