@@ -16,12 +16,12 @@ var redis = new Redis(redisURI);
 
 //console.log(1, redisURI, mongoURI);
 
-var mappers = [ 'Redis', 'Mongo', 'Local'];
+var mappers = [ 'Local', 'Mongo', 'Redis'];
 var promise = MongoClient.connect(mongoURI).then(function(mongo) {
   return {
-    Redis: require('../lib/local-mapper')(),
+    Local: require('../lib/local-mapper')(),
     Mongo: require('../lib/mongo-mapper')(mongo),
-    Local: require('../lib/redis-mapper')(redis)
+    Redis: require('../lib/redis-mapper')(redis)
   }
 });
 
@@ -96,6 +96,22 @@ next = function(key) {
       .then(function(user2) {
         expect(user2).instanceof(User);
         expect(user2.get('id').toString() == id.toString()).equal(true);
+        done();
+      }).catch(done)
+    });
+
+    it('Retreive a non-existant user from primary', function(done) {
+      userMapper.get("lalala")
+      .then(function(user2) {
+        expect(user2).to.satisfy(function() { return user2 == null || user2 == undefined } );
+        done();
+      }).catch(done)
+    });
+
+    it('Retreive a non-existant user from secondary key', function(done) {
+      userMapper.findOne({ mail: "lalala@lala.com" })
+      .then(function(user2) {
+        expect(user2).to.satisfy(function() { return user2 == null || user2 == undefined } );
         done();
       }).catch(done)
     });

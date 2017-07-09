@@ -1,35 +1,29 @@
 {
   "name": "om-nomnom",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "main": "lib/index.js",
   "scripts": {
     "clean": "rm -rf lib",
     "build": "npm run clean && coffee --compile --output lib src",
     "test": "coffee --compile --output test/build test/src && node test/build"
   },
-
   "dependencies": {
-    "lodash": "*",
-    "joi": "*",
-    "ioredis": "^1.12.2",
+    "bluebird": "^3.5.0",
     "bson": "0.4.21",
-
-    "mongodb": "*",
-
-    "bluebird": "*"
+    "ioredis": "3.1.1",
+    "joi": "^10.6.0",
+    "lodash": "^4.17.4",
+    "mongodb": "^2.2.30"
   },
-
   "engines": {
     "node": "v4.4.0",
     "npm": "2.14.20",
     "redis": "3.0.6"
   },
-
   "devDependencies": {
-    "coffee-script": "^1.9.3",
-    "mocha": "^2.3.4",
-    "chai": "*",
+    "chai": "^4.0.2",
+    "coffee-script": "^1.12.6",
+    "mocha": "^2.5.3",
     "supertest": "^1.1.0"
   }
-
 }

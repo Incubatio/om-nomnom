@@ -5,6 +5,7 @@ module.exports = (redis) ->
   Promise = require 'bluebird'
   Redis = require 'ioredis'
   fs    = require 'fs'
+  _   = require 'lodash'
 
   redis.defineCommand('getObjectFromSK', {
     numberOfKeys: 1,
@@ -36,7 +37,8 @@ module.exports = (redis) ->
     @get: (name, id) ->
       return redis.hgetall(name + ':' + id)
       .then (data) ->
-        data.id = id
+        if _.isEmpty data then data = null
+        if data then data.id = id
         return data
 
     @findOne: (name, data) ->

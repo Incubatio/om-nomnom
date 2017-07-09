@@ -1,6 +1,8 @@
 build: clean
 	coffee --compile --output lib src
 
+run: test
+
 watch: clean
 	coffee --compile --watch --output lib src
 
