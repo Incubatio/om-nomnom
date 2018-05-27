@@ -14,7 +14,7 @@ module.exports = class AModel
     @updated()
 
   get: (key) ->
-    return if @edits[key] != undefined then @edits[key] else @attrs[key]
+    return if @edits.hasOwnProperty(key) then @edits[key] else @attrs[key]
 
   set: (key, value) ->
     if @schema and @schema[key] then value = Joi.attempt(value, @schema[key])
