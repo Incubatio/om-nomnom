@@ -38,7 +38,7 @@ module.exports = (redis) ->
       return redis.hgetall(name + ':' + id)
       .then (data) ->
         if _.isEmpty data then data = null
-        if data then data.id = id
+        else data.id = id
         return data
 
     @findOne: (name, data) ->

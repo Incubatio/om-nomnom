@@ -3,22 +3,27 @@ _   = require 'lodash'
 
 module.exports = class AModel
 
-  attrs: null
-  edits: null
+  _attrs: null
+  _edits: null
+  _schema: null
+  _defaults: null
 
-  constructor: (attrs, @schema) ->
+  constructor: (attrs, @_schema, @_defaults = null) ->
     if attrs.constructor.name != 'Object' then throw 'A Model only accepts raw Object type, got "' + attrs.constructor.name + '"'
-    @edits = {}
+    if @_defaults && @_defaults instanceof Function == false then throw new Error('defaults has to be a fuction returning an object of new default value')
+    @_edits = {}
     @merge(attrs || {})
-    @attrs = @edits
+    @_attrs = @_edits
     @updated()
 
   get: (key) ->
-    return if @edits.hasOwnProperty(key) then @edits[key] else @attrs[key]
+    if @_schema.hasOwnProperty(key) == false then throw new Error(key + ' is not defined in the schema')
+    return if @_edits.hasOwnProperty(key) then @_edits[key] else @_attrs[key]
 
   set: (key, value) ->
-    if @schema and @schema[key] then value = Joi.attempt(value, @schema[key])
-    @edits[key] = value
+    if @_schema.hasOwnProperty(key) == false then throw new Error(key + ' is not defined in the schema')
+    if @_schema and @_schema[key] then value = Joi.attempt(value, @_schema[key])
+    @_edits[key] = value
     return @
 
   unset: (key) ->
@@ -29,16 +34,16 @@ module.exports = class AModel
     return @
 
   toJSON: () ->
-    return _.extend {}, @attrs, @edits
+    return _.extend {}, @_attrs, @_edits
 
   inspect: AModel.prototype.toJSON
 
   updated: () ->
-    _.extend @attrs, @edits
-    @edits = {}
+    _.extend @_attrs, @_edits
+    @_edits = {}
 
   getEdits: (clone = true) ->
-    return if clone then _.cloneDeep(@edits) else @edits
+    return if clone then _.cloneDeep(@_edits) else @_edits
 
   has: (key) ->
     return @get(key) != undefined
@@ -47,7 +52,11 @@ module.exports = class AModel
     return @has('id')
 
   isModified: () ->
-    return _.keys(@edits).length > 0
+    return _.keys(@_edits).length > 0
 
   isSynced: () ->
     return !(@isNew() || @isModified())
+
+  empty: () ->
+    @_attrs = if @_defaults then @_defaults() else {}
+    @_edits = {}
