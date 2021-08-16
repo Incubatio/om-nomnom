@@ -1,4 +1,4 @@
-module.exports = (mongodb) ->
+module.exports = (db) ->
   bson    = require 'bson'
   AModel  = require './amodel'
   AMapper = require './amapper'
@@ -7,17 +7,17 @@ module.exports = (mongodb) ->
 
   class MongoMapper extends AMapper
 
-    @mongodb: mongodb
+    @db: db
     @generateId: () -> return new bson.ObjectID()
 
     @create: (name, data) ->
       if data.id != undefined then data._id = data.id
       delete data.id
-      return mongodb.collection(name).insertOne(data)
+      return db.collection(name).insertOne(data)
 
-    @update: (name, id, data) -> return mongodb.collection(name).updateOne({ _id: id }, { $set: data })
-    @get:    (name, id)       -> return mongodb.collection(name).findOne({ _id: id})
-    @findOne:(name, data)     -> return mongodb.collection(name).findOne(data)
+    @update: (name, id, data) -> return db.collection(name).updateOne({ _id: id }, { $set: data })
+    @get:    (name, id)       -> return db.collection(name).findOne({ _id: id})
+    @findOne:(name, data)     -> return db.collection(name).findOne(data)
     #@findMany:
     #@batch:
 

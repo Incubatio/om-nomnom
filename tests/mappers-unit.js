@@ -20,7 +20,7 @@ var mappers = [ 'Local', 'Mongo', 'Redis'];
 var promise = MongoClient.connect(mongoURI).then(function(mongo) {
   return {
     Local: require('../lib/local-mapper')(),
-    Mongo: require('../lib/mongo-mapper')(mongo),
+    Mongo: require('../lib/mongo-mapper')(mongo.db()),
     Redis: require('../lib/redis-mapper')(redis)
   }
 });
